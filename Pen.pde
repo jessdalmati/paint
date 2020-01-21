@@ -2,13 +2,15 @@ class Pen {
   Boolean penDown;
   Boolean drawOn;
   color stroke;
-  int buttonX;
-  int buttonY;
+  int strokeWeight;
+  Button button;
   
-  Pen() {
+  Pen(Button b, int sw) {
     this.penDown = false;
     this.stroke = color(0);
     this.drawOn = false;
+    this.button = b;
+    this.strokeWeight = sw;
   }
   
   void toggleDraw() {
@@ -40,28 +42,27 @@ class Pen {
   }
   
   void paint() {
-    if(isPenDown() && isDrawOn()) {
-      strokeWeight(5);
+    if(isPenDown() && isDrawOn() && overCanvas()) {
+      strokeWeight(strokeWeight);
       stroke(stroke);
       line(pmouseX, pmouseY, mouseX, mouseY);
     }
-  }
-  
-  void drawButton() {
-    strokeWeight(1);
-    stroke(0);
-    ellipse(width - 30, 30, 30, 30);
+    button.show();
   }
   
   void strokeColor(color stroke) {
     this.stroke = stroke;
   }
   
-  Boolean mouseOver() {
-    if(mouseX < width - 15 && mouseX > width - 45 && mouseY > 15 && 
-      mouseY < 45) {
-        return true;
-      }
+  Boolean mouseOverButton() {
+    return button.mouseOver();
+  }
+  
+  Boolean overCanvas() {
+    if(pmouseX > 17 && pmouseX < width - 17 && pmouseY > 87 && pmouseY < height - 17
+      && mouseX > 17 && mouseX < width - 17 && mouseY > 87 && mouseY < height - 17) {
+      return true;
+    }
     return false;
   }
 }
