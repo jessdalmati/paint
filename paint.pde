@@ -1,33 +1,49 @@
 Pen[] pens;
 Pen pen;
+color paintColour;
+Palette palette;
 
 void setup() {
   size(600, 600);
   drawCanvas();
   createPens();
   pen = pens[0];
+  palette = new Palette();
+  paintColour = palette.getColour();
 }
 
 void createPens() {
-  pens = new Pen[5];
+  pens = new Pen[4];
   for(int i = 0; i < pens.length; i++) {
-    Button button = new Button(i*115 + 70, 35, 20);
+    Button button = new Button(i*75 + 325, 35, 20);
     pens[i] = new Pen(button, i + 1);
   }
 }
 
 void draw() {
   drawMenu();
+  palette.show();
   for(int i = 0; i < pens.length; i++) {
     pens[i].paint();
   }
 }
 
 void mousePressed() {
+  if(palette.mouseOver()) {
+    paintColour = palette.getColour();
+    for(int i = 0; i < pens.length; i++) {
+      pens[i].strokeColor(paintColour);
+    }
+    return;
+  }
   for(int i = 0; i < pens.length; i++) {
     if(pens[i].mouseOverButton()) {
+      for(int j = 0; j < pens.length; j++) {
+        pens[j].drawOff();
+      }
       pen = pens[i];
-      pen.toggleDraw();
+      pen.strokeColor(paintColour);
+      pen.drawOn();
       return;
     }
   }
@@ -40,6 +56,7 @@ void mouseReleased() {
 }
 
 void drawMenu() {
+  rectMode(CORNER);
   fill(255);
   noStroke();
   rect(0, 0, width, 70);
