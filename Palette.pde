@@ -6,6 +6,8 @@ class Palette {
   }
   
   void show() {
+    strokeWeight(1);
+    stroke(0);
     rectMode(CORNER);
     stroke(0);
     fill(225);
