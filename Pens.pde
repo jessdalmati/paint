@@ -10,6 +10,7 @@ class Pens {
     }
     this.selected = pens[0];
     selected.drawOn();
+    select();
   }
   
   void penDown() {
